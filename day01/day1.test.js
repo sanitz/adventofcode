@@ -65,9 +65,6 @@ function productOfThree(sum, arr) {
   for (let num1 of arr) {
     for (let num2 of arr) {
       let num3 = sum - num1 - num2;
-      if (isNaN(num3)) {
-        throw Error;
-      }
       if (arr.includes(num3)) {
         return BigInt(num3) * BigInt(num1) * BigInt(num2);
       }
@@ -80,11 +77,11 @@ test("With  three is empty", () => {
   expect(productOfThree(42, [1, 3, 7])).toBeUndefined();
 });
 
-test("Example Day 01 with threeand a simple ", () => {
+test("Example Day 01 with three simple ", () => {
   expect(productOfThree(3 + 4 + 5, [3, 4, 5])).toEqual(BigInt(3 * 4 * 5));
 });
 
-test("Example Day 01", () => {
+test("Example Day 01 given", () => {
   let arr = [1721, 979, 366, 299, 675, 1456];
   expect(productOfThree(2020, arr)).toEqual(241861950n);
 });
