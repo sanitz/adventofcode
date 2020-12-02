@@ -41,7 +41,7 @@ test("Part 1 with the example given", () => {
 const fs = require("fs");
 
 function entriesDay01() {
-  const buffer = fs.readFileSync("input.txt", "utf-8").split("\n");
+  const buffer = fs.readFileSync(__dirname + "/input.txt", "utf-8").split("\n");
   return buffer.map((x) => Number.parseInt(x));
 }
 
