@@ -97,15 +97,13 @@ function countTreesProcedural(grid, slope = defaultSlope) {
   return result;
 }
 
-const t = (f, v) => {
-  f && v;
-};
-
 const countTreesFunctional = (grid, slope = defaultSlope) =>
   grid
     .filter((line, idx) => idx % slope.down === 0)
-    .reduce((acc, line, idx) => (isTree(line, slope.right * idx) ? 1 : 0) + acc, 0);
-
+    .reduce(
+      (acc, line, idx) => (isTree(line, slope.right * idx) ? 1 : 0) + acc,
+      0
+    );
 
 const countTrees = countTreesFunctional;
 
