@@ -8,12 +8,6 @@ const isTree = (line, col) => line[col % line.length] === "#";
 const defaultSlope = { right: 3, down: 1 };
 
 test("Part 1 test for tree in line", () => {
-  expect(isTree(".", 0)).toBeFalsy();
-  expect(isTree("#", 0)).toBeTruthy();
-
-  expect(isTree("#.", 1)).toBeFalsy();
-  expect(isTree(".#", 1)).toBeTruthy();
-
   expect(isTree("#.", 3)).toBeFalsy();
   expect(isTree(".#", 3)).toBeTruthy();
 
@@ -21,20 +15,6 @@ test("Part 1 test for tree in line", () => {
   expect(isTree("#...#...#..", 3)).toBeFalsy();
   expect(isTree(".#....#..#.", 6)).toBeTruthy();
 });
-
-const exampleGridGiven = [
-  "..##.......",
-  "#...#...#..",
-  ".#....#..#.",
-  "..#.#...#.#",
-  ".#...##..#.",
-  "..#.##.....",
-  ".#.#.#....#",
-  ".#........#",
-  "#.##...#...",
-  "#...##....#",
-  ".#..#...#.#",
-];
 
 function countTreesProcedural(grid, slope = defaultSlope) {
   let result = 0;
@@ -58,12 +38,27 @@ const countTreesFunctional = (grid, slope = defaultSlope) =>
 //const countTrees = countTreesProcedural;
 const countTrees = countTreesFunctional;
 
-test("Part 1 count trees", () => {
+test("Part 1 count trees simple examples", () => {
   expect(countTrees([])).toEqual(0);
   expect(countTrees(["..##......."])).toEqual(0);
-
   expect(countTrees(["..##.......", "#...#...#..", ".#....#..#."])).toEqual(1);
+});
 
+const exampleGridGiven = [
+  "..##.......",
+  "#...#...#..",
+  ".#....#..#.",
+  "..#.#...#.#",
+  ".#...##..#.",
+  "..#.##.....",
+  ".#.#.#....#",
+  ".#........#",
+  "#.##...#...",
+  "#...##....#",
+  ".#..#...#.#",
+];
+
+test("Part 1 count trees example given", () => {
   expect(countTrees(exampleGridGiven)).toEqual(7);
 });
 
