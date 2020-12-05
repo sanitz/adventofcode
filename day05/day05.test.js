@@ -82,15 +82,11 @@ test("Part 1 result", () => {
 */
 test("Part 2 result", () => {
   const seatIDs = entriesDay05.reduce((acc, e) => acc.concat(e.seatID), []);
-  let free_seatIDs = [];
-  for (let id = 2; id < seatIDs.length; id++) {
-    if (
-      !seatIDs.includes(id) &&
-      seatIDs.includes(id - 1) &&
-      seatIDs.includes(id + 1)
-    ) {
-      free_seatIDs.push(id);
+  const free = seatIDs.reduce((acc, id) => {
+    if (!seatIDs.includes(id + 1) && seatIDs.includes(id + 2)) {
+      acc.push(id + 1);
     }
-  }
-  expect(free_seatIDs[0]).toEqual(592);
+    return acc;
+  }, []);
+  expect(free[0]).toEqual(592);
 });
