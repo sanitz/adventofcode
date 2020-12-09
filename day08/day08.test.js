@@ -3,23 +3,22 @@
 https://adventofcode.com/2020/day/8 
 */
 
-const parseLine = (str) => {
-  return { instruction: str.slice(0, 3), argument: parseInt(str.slice(4)) };
-};
+const input = require("fs").readFileSync(`${__dirname}/input.txt`, "utf-8");
+
+const example_input = require("fs").readFileSync(
+  `${__dirname}/example_input.txt`,
+  "utf-8"
+);
 
 const parse_program = (lines) =>
-  lines.split("\n").map((line) => parseLine(line));
+  lines
+    .split("\n")
+    .map((line) => ({
+      instruction: line.slice(0, 3),
+      argument: Number.parseInt(line.slice(4)),
+    }));
 
-const example_input = `nop +0
-acc +1
-jmp +4
-acc +3
-jmp -3
-acc -99
-acc +1
-jmp -4
-acc +6`;
-
+const parse_input = () => parse_program(input);
 const parse_example = () => parse_program(example_input);
 
 test("Part 1 parse examples", () => {
@@ -57,9 +56,6 @@ test("Part 1 example result", () => {
   expect(run_once(parse_example()).acc).toEqual(5);
 });
 
-const parse_input = () =>
-  parse_program(require("fs").readFileSync(__dirname + "/input.txt", "utf-8"));
-
 test("Part 1 result", () => {
   expect(run_once(parse_input()).acc).toEqual(1671);
 });
@@ -67,16 +63,6 @@ test("Part 1 result", () => {
 /*
 --- Part Two ---
 */
-
-const example_input_correct = `nop +0
-acc +1
-jmp +4
-acc +3
-jmp -3
-acc -99
-acc +1
-nop -4
-acc +6`;
 
 const jmp_nop_pos = (instructions) =>
   instructions
