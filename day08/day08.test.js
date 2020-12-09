@@ -11,12 +11,10 @@ const example_input = require("fs").readFileSync(
 );
 
 const parse_program = (lines) =>
-  lines
-    .split("\n")
-    .map((line) => ({
-      instruction: line.slice(0, 3),
-      argument: Number.parseInt(line.slice(4)),
-    }));
+  lines.split("\n").map((line) => ({
+    instruction: line.slice(0, 3),
+    argument: Number.parseInt(line.slice(4)),
+  }));
 
 const parse_input = () => parse_program(input);
 const parse_example = () => parse_program(example_input);
@@ -28,7 +26,7 @@ test("Part 1 parse examples", () => {
 });
 
 const run_once = (programm) => {
-  let state = { seen: [], pos: 0, acc: 0, hist: [] };
+  let state = { seen: [], pos: 0, acc: 0 };
 
   main_loop: {
     while (true) {
@@ -37,7 +35,6 @@ const run_once = (programm) => {
       }
       state.seen.push(state.pos);
       const op = programm[state.pos];
-      state.hist.push(op);
 
       if (op.instruction === "acc") {
         state.acc = state.acc + op.argument;
@@ -64,7 +61,7 @@ test("Part 1 result", () => {
 --- Part Two ---
 */
 
-const jmp_nop_pos = (instructions) =>
+const possible_error_positions = (instructions) =>
   instructions
     .map((i, idx) =>
       i.instruction === "jmp" || i.instruction === "nop" ? idx : undefined
@@ -72,7 +69,7 @@ const jmp_nop_pos = (instructions) =>
     .filter((x) => x !== undefined);
 
 test("Part 2 - filter possible toggle positions ", () => {
-  expect(jmp_nop_pos(parse_example())).toEqual([0, 2, 4, 7]);
+  expect(possible_error_positions(parse_example())).toEqual([0, 2, 4, 7]);
 });
 
 const toggle = (i) => ({
@@ -80,38 +77,18 @@ const toggle = (i) => ({
   argument: i.argument,
 });
 
-test("Part 2 -  toggle instruction", () => {
-  expect(toggle({ instruction: "nop", argument: 42 })).toEqual({
-    instruction: "jmp",
-    argument: 42,
-  });
-  let i = { instruction: "jmp", argument: 42 };
-  expect(toggle(i)).toEqual({
-    instruction: "nop",
-    argument: 42,
-  });
-});
-
 const toggle_at = (instructions, pos) =>
   instructions.map((instruction, idx) =>
     idx !== pos ? instruction : toggle(instruction)
   );
 
-test("Part 2 -  toggle positions ", () => {
-  const instructions = parse_example();
-  expect(instructions[2].instruction).toEqual("jmp");
-  const new_instructions = toggle_at(instructions, 2);
-  expect(instructions[2].instruction).toEqual("jmp");
-  expect(new_instructions[2].instruction).toEqual("nop");
-});
-
 const fix = (instructions) => {
-  const positions = jmp_nop_pos(instructions);
+  const positions = possible_error_positions(instructions);
   return positions.reduce((found, position) => {
     if (!found) {
-      const hist = run_once(toggle_at(instructions, position));
-      if (hist.pos === instructions.length) {
-        found = hist.acc;
+      const state = run_once(toggle_at(instructions, position));
+      if (state.pos === instructions.length) {
+        found = state.acc;
       }
     }
     return found;
