@@ -2,31 +2,14 @@
 --- Day 9: Encoding Error ---
 https://adventofcode.com/2020/day/9  
 */
-const example_numbers = `35
-20
-15
-25
-47
-40
-62
-55
-65
-95
-102
-117
-150
-182
-127
-219
-299
-277
-309
-576`
+
+const example_numbers = require("fs")
+  .readFileSync(`${__dirname}/example_input.txt`, "utf-8")
   .split("\n")
   .map((l) => Number.parseInt(l));
 
 const input_numbers = require("fs")
-  .readFileSync(__dirname + "/input.txt", "utf-8")
+  .readFileSync(`${__dirname}/input.txt`, "utf-8")
   .split("\n")
   .map((l) => Number.parseInt(l));
 
