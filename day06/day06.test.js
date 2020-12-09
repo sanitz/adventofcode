@@ -3,6 +3,9 @@
 https://adventofcode.com/2020/day/6 
 */
 
+const input = () =>
+  require("fs").readFileSync(`${__dirname}/input.txt`, "utf-8").split(/\n\n+/);
+
 const count = (lines) =>
   lines
     .split("")
@@ -25,12 +28,8 @@ test("Part 1 sum of counts", () => {
   expect(sumOfCount(lines)).toEqual(3 + 3 + 3 + 1 + 1);
 });
 
-const entriesDay06 = require("fs")
-  .readFileSync(__dirname + "/input.txt", "utf-8")
-  .split(/\n\n+/);
-
 test("Part 1 result", () => {
-  expect(sumOfCount(entriesDay06)).toEqual(6259);
+  expect(sumOfCount(input())).toEqual(6259);
 });
 
 /*
@@ -61,5 +60,5 @@ test("Part 2 sum of yes", () => {
 });
 
 test("Part 1 result", () => {
-  expect(sumOfYes(entriesDay06)).toEqual(3178);
+  expect(sumOfYes(input())).toEqual(3178);
 });
