@@ -3,6 +3,13 @@
 https://adventofcode.com/2020/day/7  
 */
 
+const input = require("fs").readFileSync(`${__dirname}/input.txt`, "utf-8");
+
+const example_input = require("fs").readFileSync(
+  `${__dirname}/example_input.txt`,
+  "utf-8"
+);
+
 const parseContent = (str) => {
   content = {};
   str.split(",").forEach((str) => {
@@ -37,21 +44,17 @@ test("Part 1 - parsing rules", () => {
   expect(rules).toEqual({});
 });
 
-const parseFile = (fileName) =>
-  require("fs")
-    .readFileSync(__dirname + fileName, "utf-8")
-    .split(/\n/)
-    .reduce((acc, line) => {
-      const [color, rule] = parseRule(line);
-      acc[color] = rule;
-      return acc;
-    }, {});
-
-const exampleRulesDay07 = parseFile("/input_examples.txt");
+const parse_input = (input) =>
+  input.split(/\n/).reduce((acc, line) => {
+    const [color, rule] = parseRule(line);
+    acc[color] = rule;
+    return acc;
+  }, {});
 
 test("Part 1 - parsing example rules", () => {
-  expect(Object.keys(exampleRulesDay07).length).toEqual(9);
-  expect(exampleRulesDay07["bright white"]).toEqual({ "shiny gold": 1 });
+  const example_rules = parse_input(example_input);
+  expect(Object.keys(example_rules).length).toEqual(9);
+  expect(example_rules["bright white"]).toEqual({ "shiny gold": 1 });
 });
 
 const validBags = (expected, rules) => {
@@ -69,14 +72,16 @@ const canContain = (color, expected, rules) => {
 };
 
 test("Part 1 - count rules", () => {
-  expect(validBags("light red", exampleRulesDay07)).toEqual([]);
-  expect(validBags("shiny gold", exampleRulesDay07).length).toEqual(4);
+  const example_rules = parse_input(example_input);
+  expect(validBags("light red", example_rules)).toEqual([]);
+  expect(validBags("shiny gold", example_rules).length).toEqual(4);
 });
 
-const rulesDay07 = parseFile("/input.txt");
+// const rulesDay07 = parseFile("/input.txt");
 
 test("Part 1 - result", () => {
-  expect(validBags("shiny gold", rulesDay07).length).toEqual(169);
+  const rules = parse_input(input);
+  expect(validBags("shiny gold", rules).length).toEqual(169);
 });
 
 /*
@@ -90,11 +95,13 @@ const countBags = (expected, rules) =>
   );
 
 test("Part 2 - countBags", () => {
-  expect(countBags("faded blue", exampleRulesDay07)).toEqual(0);
-  expect(countBags("vibrant plum", exampleRulesDay07)).toEqual(5 + 6);
-  expect(countBags("shiny gold", exampleRulesDay07)).toEqual(32);
+  const example_rules = parse_input(example_input);
+  expect(countBags("faded blue", example_rules)).toEqual(0);
+  expect(countBags("vibrant plum", example_rules)).toEqual(5 + 6);
+  expect(countBags("shiny gold", example_rules)).toEqual(32);
 });
 
 test("Part 2 - result", () => {
-  expect(countBags("shiny gold", rulesDay07)).toEqual(82372);
+  const rules = parse_input(input);
+  expect(countBags("shiny gold", rules)).toEqual(82372);
 });
