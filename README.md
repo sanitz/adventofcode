@@ -1,3 +1,3 @@
-# My solutions for the Advent of Code 2020
+# My solutions for the Advent of Code 
 
-For more information: [adventofcode.com/2020/](https://adventofcode.com/2020/)
+For more information: [adventofcode.com/](https://adventofcode.com/)
